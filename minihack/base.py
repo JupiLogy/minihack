@@ -641,3 +641,16 @@ class MiniHack(NetHackStaircase):
                 if name in des_arr[:symb_len].tobytes().decode("utf-8"):
                     return True
         return False
+
+    def screen_count(self, name, observation=None):
+        if observation is None:
+            observation = self.last_observation
+        count = 0
+        y, x = SCREEN_DESCRIPTIONS_SHAPE[0:2]
+        for j in range(y):
+            for i in range(x):
+                des_arr = observation[self._scr_descr_index][j, i]
+                symb_len = np.where(des_arr==0)[0][0]
+                if name in des_arr[:symb_len].tobytes().decode("utf-8"):
+                    count += 1
+        return count
